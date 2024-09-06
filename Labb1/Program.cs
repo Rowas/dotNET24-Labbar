@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics;
 
 static int IndexSearch(string searchString, int charSearch, int beginIndex)
 {
@@ -34,16 +35,16 @@ static bool StringSanityCheck(string sanityCheck)
     }
     return sane;
 }
-/*
-static string BeforeAfterNumbers(string numbersFound)
+
+static (string, string) BeforeAfterNumbers(string userProvidedString, int index1, int index2)
 {
-
+    string remainingNumbersBefore = userProvidedString.Remove(index1);
+    string remainingNumbersAfter = userProvidedString.Remove(0, index2+1);
+    return (remainingNumbersAfter, remainingNumbersBefore);
 }
-
+/*
 static string ColourNumbers(string numbersToColour)
 {
-
-
     return numbersColoured;
 }
 
@@ -80,4 +81,15 @@ if (sane == true)
 else
 {
     Console.WriteLine("String is not safe, trash and move on.");
+    return;
 }
+
+(string numbersAfter, string numbersBefore) = BeforeAfterNumbers(userProvidedString, index1, newIndex2);
+
+Console.WriteLine();
+Console.ForegroundColor = ConsoleColor.Gray;
+Console.Write(numbersBefore);
+Console.ForegroundColor = ConsoleColor.Red;
+Console.Write(stringToColour);
+Console.ForegroundColor = ConsoleColor.Gray;
+Console.Write(numbersAfter);
