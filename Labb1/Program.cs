@@ -42,18 +42,6 @@ static (string, string) BeforeAfterNumbers(string userProvidedString, int index1
     string remainingNumbersAfter = userProvidedString.Remove(0, index2+1);
     return (remainingNumbersAfter, remainingNumbersBefore);
 }
-/*
-static string ColourNumbers(string numbersToColour)
-{
-    return numbersColoured;
-}
-
-static double[] foundNumbersAddition(double[] addFoundNumbers)
-{
-
-}
-
-*/
 
 string userProvidedString = "";
 int index1 = 0;
@@ -92,4 +80,12 @@ Console.Write(numbersBefore);
 Console.ForegroundColor = ConsoleColor.Red;
 Console.Write(stringToColour);
 Console.ForegroundColor = ConsoleColor.Gray;
-Console.Write(numbersAfter);
+Console.WriteLine(numbersAfter);
+
+double[] addFoundNumbers = new double[1500];
+addFoundNumbers[index1] = Int32.Parse(stringToColour);
+addFoundNumbers[1] = 1000000;
+addFoundNumbers[2] = 1000000;
+double sumFoundNumbers = addFoundNumbers.Sum();
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine(sumFoundNumbers);
