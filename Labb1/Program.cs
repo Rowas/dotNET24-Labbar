@@ -19,6 +19,12 @@ static string FindNumbers(string searchString, int startIndex, int endIndex)
     }
     string foundNumString = new string(stringChars);
 
+    if (endIndex - startIndex + 1 > 0)
+    {
+        foundNumString = foundNumString.Remove(0, startIndex);
+        foundNumString = foundNumString.Remove(endIndex - startIndex + 1);
+    }
+
     return foundNumString;
 }
 
@@ -36,6 +42,9 @@ static bool StringSanityCheck(string sanityCheck)
     return sane;
 }
 
+/*
+//Function obsolete, solution it provided moved to 'FindNumbers' function. 
+//Leaving for prosperity. 
 static double StringTrashRemover(string stringWithTrash)
 {
     double trashFreeDouble = 0;
@@ -59,6 +68,7 @@ static double StringTrashRemover(string stringWithTrash)
 
     return trashFreeDouble;
 }
+*/
 
 static (string, string) BeforeAfterNumbers(string userProvidedString, int index1, int index2)
 {
@@ -97,6 +107,7 @@ while (true)
     sane = StringSanityCheck(stringToColour);
 
 
+
     if (newIndex2 < 0)
     {
         //Console.WriteLine("String is not safe, trash and move on."); --Confirmation of result from StringSanityCheck, leaving for future troubleshooting.
@@ -114,7 +125,8 @@ while (true)
     else
     {
         //Console.WriteLine("String is safe to use."); --Confirmation of result from StringSanityCheck, leaving for future troubleshooting.
-        addFoundNumbers[addIndex] = StringTrashRemover(stringToColour);
+        //addFoundNumbers[addIndex] = StringTrashRemover(stringToColour);
+        addFoundNumbers[addIndex] = double.Parse(stringToColour);
         addIndex++;
     }
 
