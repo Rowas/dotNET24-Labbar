@@ -1,39 +1,45 @@
-﻿using System.Data;
+﻿using System.Globalization;
+using System.Data;
 using System.Diagnostics;
 
-static int IndexSearch(string searchString, int charSearch, int beginIndex)
+static int FindIndex(string stringSearch, int numberMatch, int startIndex)
 {
-    int foundIndex;
-    char searchChar = searchString[charSearch];
-    foundIndex = searchString.IndexOf(searchChar, beginIndex);
-    return foundIndex;
+    int foundEndIndex;
+    char matchingNumber = stringSearch[numberMatch];
+    foundEndIndex = stringSearch.IndexOf(matchingNumber, startIndex);
+    return foundEndIndex;
 }
 
-static string FindNumbers(string searchString, int startIndex, int endIndex)
+static string FindNumberString(string stringSearch, int startIndex, int endIndex)
 {
-    char[] stringChars = new char[searchString.Length];
+    char[] stringCharArray = new char[stringSearch.Length];
 
     for (int i = startIndex; i <= endIndex; i++)
     {
-        stringChars[i] = Char.Parse(searchString.Substring(i, 1));
+        stringCharArray[i] = char.Parse(stringSearch.Substring(i, 1));
     }
-    string foundNumString = new string(stringChars);
+    string foundNumberString = new string(stringCharArray);
 
     if (endIndex - startIndex + 1 > 0)
     {
-        foundNumString = foundNumString.Remove(0, startIndex);
-        foundNumString = foundNumString.Remove(endIndex - startIndex + 1);
+        foundNumberString = foundNumberString.Remove(0, startIndex);
+        foundNumberString = foundNumberString.Remove(endIndex - startIndex + 1);
     }
 
-    return foundNumString;
+    return foundNumberString;
 }
 
-static bool StringSanityCheck(string sanityCheck)
+static bool SanityCheck(string sanityString)
 {
     bool sane = true;
-    foreach (char c in sanityCheck)
+    foreach (char c in sanityString)
     {
         if (char.IsLetter(c) == true)
+        {
+            sane = false;
+            break;
+        }
+        else if (char.IsDigit(c) == false)
         {
             sane = false;
             break;
@@ -42,110 +48,87 @@ static bool StringSanityCheck(string sanityCheck)
     return sane;
 }
 
-/*
-//Function obsolete, solution it provided moved to 'FindNumbers' function. 
-//Leaving for prosperity. 
-static double StringTrashRemover(string stringWithTrash)
+static (string, string) BeforeAfterNumbers(string stringSearch, int startIndex, int endIndex)
 {
-    double trashFreeDouble = 0;
-    char[] charWithoutTrash = new char[stringWithTrash.Length];
-    char c = ' ';
-    int y = 0;
-    for (int i = 0; i <= stringWithTrash.Length - 1; i++)
-    {
-        c = char.Parse(stringWithTrash.Substring(i, 1));
-
-        if (char.IsDigit(c) == true)
-        {
-            charWithoutTrash[y] = c;
-            y++;
-        }
-    }
-
-    string stringWithoutTrash = new string(charWithoutTrash);
-
-    trashFreeDouble = double.Parse(stringWithoutTrash);
-
-    return trashFreeDouble;
-}
-*/
-
-static (string, string) BeforeAfterNumbers(string userProvidedString, int index1, int index2)
-{
-    string remainingNumbersBefore = userProvidedString.Remove(index1);
-    string remainingNumbersAfter = userProvidedString.Remove(0, index2+1);
-    return (remainingNumbersAfter, remainingNumbersBefore);
+    string numbersBeforeString = stringSearch.Remove(startIndex);
+    string numbersAfterString = stringSearch.Remove(0, endIndex + 1);
+    return (numbersBeforeString, numbersAfterString);
 }
 
-string userProvidedString = "";
-int index1 = 0;
-int index2 = 1;
-double[] addFoundNumbers = new double[1500];
-string stringToColour = "";
+static void PrintResult(string numbersBeforeString, string numbersAfterString, string foundString)
+{
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Gray;
+    Console.Write(numbersBeforeString);
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write(foundString);
+    Console.ForegroundColor = ConsoleColor.Gray;
+    Console.Write(numbersAfterString);
+}
+static void PrintSum(double printSum)
+{
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.Gray;
+    Console.WriteLine($"Sum of all found string values is: ");
+    Console.ForegroundColor = ConsoleColor.Green;
+    Console.Write(printSum);
+    Console.ForegroundColor = ConsoleColor.Gray;
+}
+
+string stringSearch = "";
+string foundString = "";
+string numbersBeforeString = "";
+string numbersAfterString = "";
+int startIndex = 0;
+int endIndex = 1;
+double[] foundNumbersSum = new double[1500];
 bool sane = true;
-int newIndex2 = 0;
-int addIndex = 0;
+int sumIndex = 0;
+int printIndex = 0;
+double printSum = 0;
 
 Console.ForegroundColor = ConsoleColor.Gray;
 Console.WriteLine("Please provide a string to evaluate: ");
-userProvidedString = Console.ReadLine();
+stringSearch = Console.ReadLine();
 
 while (true)
 {
-    if (index2 == userProvidedString.Length - 1)
+    if (endIndex == stringSearch.Length - 1)
     {
         break;
     }
-    newIndex2 = IndexSearch(userProvidedString, index1, index2);
+    printIndex = FindIndex(stringSearch, startIndex, endIndex);
 
-    // Console.WriteLine($"{index1},{newIndex2}"); --Sanity check of IndexSearch, leaving for future troubleshooting. 
+    foundString = FindNumberString(stringSearch, startIndex, printIndex);
 
-    stringToColour = FindNumbers(userProvidedString, index1, newIndex2);
+    sane = SanityCheck(foundString);
 
-    //Console.WriteLine(stringToColour); --Sanity check of result from FindNumbers(), leaving for future troubleshooting.
-
-    sane = StringSanityCheck(stringToColour);
-
-
-
-    if (newIndex2 < 0)
+    if (printIndex < 0)
     {
-        //Console.WriteLine("String is not safe, trash and move on."); --Confirmation of result from StringSanityCheck, leaving for future troubleshooting.
-        index1++;
-        index2++;
+        startIndex++;
+        endIndex++;
         continue;
     }
     else if (sane == false)
     {
-        //Console.WriteLine("String is not safe, trash and move on."); --Confirmation of result from StringSanityCheck, leaving for future troubleshooting.
-        index1++;
-        index2++;
+        startIndex++;
+        endIndex++;
         continue;
     }
     else
     {
-        //Console.WriteLine("String is safe to use."); --Confirmation of result from StringSanityCheck, leaving for future troubleshooting.
-        //addFoundNumbers[addIndex] = StringTrashRemover(stringToColour);
-        addFoundNumbers[addIndex] = double.Parse(stringToColour);
-        addIndex++;
+        foundNumbersSum[sumIndex] = double.Parse(foundString);
+        sumIndex++;
     }
 
-    (string numbersAfter, string numbersBefore) = BeforeAfterNumbers(userProvidedString, index1, newIndex2);
+    (numbersBeforeString, numbersAfterString) = BeforeAfterNumbers(stringSearch, startIndex, printIndex);
 
-    Console.WriteLine();
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write(numbersBefore);
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.Write(stringToColour);
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.Write(numbersAfter);
-    index1++;
-    index2++;
+    PrintResult(numbersBeforeString, numbersAfterString, foundString);
+
+    startIndex++;
+    endIndex++;
 }
-Console.WriteLine();
-Console.WriteLine();
-double sumFoundNumbers = addFoundNumbers.Sum();
-Console.WriteLine("The sum of all the found numbers is: ");
-Console.ForegroundColor = ConsoleColor.Green;
-Console.Write(sumFoundNumbers);
-Console.ForegroundColor = ConsoleColor.Gray;
+printSum = foundNumbersSum.Sum();
+
+PrintSum(printSum);
