@@ -92,12 +92,8 @@ Console.ForegroundColor = ConsoleColor.Gray;
 Console.WriteLine("Please provide a string to evaluate: ");
 stringSearch = Console.ReadLine();
 
-while (true)
+while (endIndex != stringSearch.Length - 1)
 {
-    if (endIndex == stringSearch.Length - 1)
-    {
-        break;
-    }
     printIndex = FindIndex(stringSearch, startIndex, endIndex);
 
     foundString = FindNumberString(stringSearch, startIndex, printIndex);
