@@ -2,21 +2,21 @@
 using System.Data;
 using System.Diagnostics;
 
-static int FindIndex(string stringSearch, int numberMatch, int startIndex)
+static int FindIndex(string searchString, int numberMatch, int startIndex)
 {
     int foundEndIndex;
-    char matchingNumber = stringSearch[numberMatch];
-    foundEndIndex = stringSearch.IndexOf(matchingNumber, startIndex);
+    char matchingNumber = searchString[numberMatch];
+    foundEndIndex = searchString.IndexOf(matchingNumber, startIndex);
     return foundEndIndex;
 }
 
-static string FindNumberString(string stringSearch, int startIndex, int endIndex)
+static string FindNumberString(string searchString, int startIndex, int endIndex)
 {
-    char[] stringCharArray = new char[stringSearch.Length];
+    char[] stringCharArray = new char[searchString.Length];
 
     for (int i = startIndex; i <= endIndex; i++)
     {
-        stringCharArray[i] = char.Parse(stringSearch.Substring(i, 1));
+        stringCharArray[i] = char.Parse(searchString.Substring(i, 1));
     }
     string foundNumberString = new string(stringCharArray);
 
@@ -48,10 +48,10 @@ static bool SanityCheck(string sanityString)
     return sane;
 }
 
-static (string, string) BeforeAfterNumbers(string stringSearch, int startIndex, int endIndex)
+static (string, string) BeforeAfterNumbers(string searchString, int startIndex, int endIndex)
 {
-    string numbersBeforeString = stringSearch.Remove(startIndex);
-    string numbersAfterString = stringSearch.Remove(0, endIndex + 1);
+    string numbersBeforeString = searchString.Remove(startIndex);
+    string numbersAfterString = searchString.Remove(0, endIndex + 1);
     return (numbersBeforeString, numbersAfterString);
 }
 
