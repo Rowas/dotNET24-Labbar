@@ -77,7 +77,7 @@ static void PrintSum(double printSum)
     Console.ForegroundColor = ConsoleColor.Gray;
 }
 
-string stringSearch = "";
+string searchString = "";
 string foundString = "";
 string numbersBeforeString = "";
 string numbersAfterString = "";
@@ -91,13 +91,25 @@ double printSum = 0;
 
 Console.ForegroundColor = ConsoleColor.Gray;
 Console.WriteLine("Please provide a string to evaluate: ");
-stringSearch = Console.ReadLine();
 
-while (endIndex != stringSearch.Length - 1)
+while (true)
 {
-    printIndex = FindIndex(stringSearch, startIndex, endIndex);
+    searchString = Console.ReadLine();
+    if (searchString == "")
+    {
+        Console.WriteLine("Invalid input, try again.");
+    }
+    else
+    {
+        break;
+    }
+}
 
-    foundString = FindNumberString(stringSearch, startIndex, printIndex);
+while (endIndex != searchString.Length - 1)
+{
+    printIndex = FindIndex(searchString, startIndex, endIndex);
+
+    foundString = FindNumberString(searchString, startIndex, printIndex);
 
     sane = SanityCheck(foundString);
 
@@ -119,7 +131,7 @@ while (endIndex != stringSearch.Length - 1)
         sumIndex++;
     }
 
-    (numbersBeforeString, numbersAfterString) = BeforeAfterNumbers(stringSearch, startIndex, printIndex);
+    (numbersBeforeString, numbersAfterString) = BeforeAfterNumbers(searchString, startIndex, printIndex);
 
     PrintResult(numbersBeforeString, numbersAfterString, foundString);
 
