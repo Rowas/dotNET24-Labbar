@@ -65,6 +65,7 @@ static void PrintResult(string numbersBeforeString, string numbersAfterString, s
     Console.ForegroundColor = ConsoleColor.Gray;
     Console.Write(numbersAfterString);
 }
+
 static void PrintSum(double printSum)
 {
     Console.WriteLine();
@@ -82,7 +83,7 @@ string numbersBeforeString = "";
 string numbersAfterString = "";
 int startIndex = 0;
 int endIndex = 1;
-double[] foundNumbersSum = new double[1500];
+double[] foundNumbersSumArray = new double[1500];
 bool sane = true;
 int sumIndex = 0;
 int printIndex = 0;
@@ -114,7 +115,7 @@ while (endIndex != stringSearch.Length - 1)
     }
     else
     {
-        foundNumbersSum[sumIndex] = double.Parse(foundString);
+        foundNumbersSumArray[sumIndex] = double.Parse(foundString);
         sumIndex++;
     }
 
@@ -125,6 +126,6 @@ while (endIndex != stringSearch.Length - 1)
     startIndex++;
     endIndex++;
 }
-printSum = foundNumbersSum.Sum();
+printSum = foundNumbersSumArray.Sum();
 
 PrintSum(printSum);
