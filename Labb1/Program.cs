@@ -78,16 +78,10 @@ static void PrintSum(double printSum)
 }
 
 string searchString = "";
-string foundString = "";
-string numbersBeforeString = "";
-string numbersAfterString = "";
 int startIndex = 0;
 int endIndex = 1;
 double[] foundNumbersSumArray = new double[1500];
-bool sane = true;
 int sumIndex = 0;
-int printIndex = 0;
-double printSum = 0;
 
 Console.ForegroundColor = ConsoleColor.Gray;
 Console.WriteLine("Please provide a string to evaluate: ");
@@ -107,11 +101,11 @@ while (true)
 
 while (endIndex != searchString.Length - 1)
 {
-    printIndex = FindIndex(searchString, startIndex, endIndex);
+    int printIndex = FindIndex(searchString, startIndex, endIndex);
 
-    foundString = FindNumberString(searchString, startIndex, printIndex);
+    string foundString = FindNumberString(searchString, startIndex, printIndex);
 
-    sane = SanityCheck(foundString);
+    bool sane = SanityCheck(foundString);
 
     if (printIndex < 0)
     {
@@ -131,13 +125,13 @@ while (endIndex != searchString.Length - 1)
         sumIndex++;
     }
 
-    (numbersBeforeString, numbersAfterString) = BeforeAfterNumbers(searchString, startIndex, printIndex);
+    (string numbersBeforeString, string numbersAfterString) = BeforeAfterNumbers(searchString, startIndex, printIndex);
 
     PrintResult(numbersBeforeString, numbersAfterString, foundString);
 
     startIndex++;
     endIndex++;
 }
-printSum = foundNumbersSumArray.Sum();
+double printSum = foundNumbersSumArray.Sum();
 
 PrintSum(printSum);
