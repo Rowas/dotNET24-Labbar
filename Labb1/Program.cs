@@ -6,7 +6,9 @@ static int FindIndex(string searchString, int numberMatch, int startIndex)
 {
     int foundEndIndex;
     char matchingNumber = searchString[numberMatch];
+
     foundEndIndex = searchString.IndexOf(matchingNumber, startIndex);
+
     return foundEndIndex;
 }
 
@@ -18,6 +20,7 @@ static string FindNumberString(string searchString, int startIndex, int endIndex
     {
         stringCharArray[i] = char.Parse(searchString.Substring(i, 1));
     }
+
     string foundNumberString = new string(stringCharArray);
 
     if (endIndex - startIndex + 1 > 0)
@@ -52,6 +55,7 @@ static (string, string) BeforeAfterNumbers(string searchString, int startIndex, 
 {
     string numbersBeforeString = searchString.Remove(startIndex);
     string numbersAfterString = searchString.Remove(0, endIndex + 1);
+
     return (numbersBeforeString, numbersAfterString);
 }
 
@@ -60,8 +64,10 @@ static void PrintResult(string numbersBeforeString, string numbersAfterString, s
     Console.WriteLine();
     Console.ForegroundColor = ConsoleColor.Gray;
     Console.Write(numbersBeforeString);
+
     Console.ForegroundColor = ConsoleColor.Green;
     Console.Write(foundString);
+
     Console.ForegroundColor = ConsoleColor.Gray;
     Console.Write(numbersAfterString);
 }
@@ -70,10 +76,13 @@ static void PrintSum(double printSum)
 {
     Console.WriteLine();
     Console.WriteLine();
+
     Console.ForegroundColor = ConsoleColor.Gray;
     Console.WriteLine($"Sum of all found string values is: ");
+
     Console.ForegroundColor = ConsoleColor.Green;
     Console.Write(printSum);
+
     Console.ForegroundColor = ConsoleColor.Gray;
 }
 
@@ -107,13 +116,7 @@ while (endIndex != searchString.Length - 1)
 
     bool sane = SanityCheck(foundString);
 
-    if (printIndex < 0)
-    {
-        startIndex++;
-        endIndex++;
-        continue;
-    }
-    else if (sane == false)
+    if (printIndex < 0 || sane == false)
     {
         startIndex++;
         endIndex++;
