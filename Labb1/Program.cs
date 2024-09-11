@@ -12,13 +12,13 @@ static int FindIndex(string searchString, int numberMatch, int startIndex)
 
 static string FindNumberString(string searchString, int startIndex, int endIndex)
 {
-    char[] stringCharArray = new char[searchString.Length];
+    char[] charArrayString = new char[searchString.Length];
 
     for (int i = startIndex; i <= endIndex; i++)
     {
-        stringCharArray[i] = char.Parse(searchString.Substring(i, 1));
+        charArrayString[i] = char.Parse(searchString.Substring(i, 1));
     }
-    string foundNumberString = new string(stringCharArray);
+    string foundNumberString = new string(charArrayString);
 
     if (endIndex - startIndex + 1 > 0)
     {
@@ -34,12 +34,7 @@ static bool SanityCheck(string sanityString)
     bool sane = true;
     foreach (char c in sanityString)
     {
-        if (char.IsLetter(c) == true)
-        {
-            sane = false;
-            break;
-        }
-        else if (char.IsDigit(c) == false)
+        if (char.IsLetter(c) == true || char.IsDigit(c) == false)
         {
             sane = false;
             break;
@@ -107,13 +102,7 @@ while (endIndex != searchString.Length - 1)
 
     bool sane = SanityCheck(foundString);
 
-    if (printIndex < 0)
-    {
-        startIndex++;
-        endIndex++;
-        continue;
-    }
-    else if (sane == false)
+    if (printIndex < 0 || sane == false)
     {
         startIndex++;
         endIndex++;
