@@ -2,7 +2,7 @@
 using System.Data;
 using System.Diagnostics;
 
-static int FindIndex(string searchString, int numberMatch, int startIndex)
+static int FindMatchIndex(string searchString, int numberMatch, int startIndex)
 {
     int foundEndIndex;
     char matchingNumber = searchString[numberMatch];
@@ -10,7 +10,7 @@ static int FindIndex(string searchString, int numberMatch, int startIndex)
     return foundEndIndex;
 }
 
-static string FindNumberString(string searchString, int startIndex, int endIndex)
+static string FindMatchingString(string searchString, int startIndex, int endIndex)
 {
     char[] charArrayString = new char[searchString.Length];
 
@@ -34,7 +34,7 @@ static bool SanityCheck(string sanityString)
     bool sane = true;
     foreach (char c in sanityString)
     {
-        if (char.IsLetter(c) == true || char.IsDigit(c) == false)
+        if (char.IsDigit(c) == false)
         {
             sane = false;
             break;
@@ -96,9 +96,9 @@ while (true)
 
 while (endIndex != searchString.Length - 1)
 {
-    int printIndex = FindIndex(searchString, startIndex, endIndex);
+    int printIndex = FindMatchIndex(searchString, startIndex, endIndex);
 
-    string foundString = FindNumberString(searchString, startIndex, printIndex);
+    string foundString = FindMatchingString(searchString, startIndex, printIndex);
 
     bool sane = SanityCheck(foundString);
 
