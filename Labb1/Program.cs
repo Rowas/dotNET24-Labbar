@@ -94,7 +94,7 @@ while (true)
     searchString = Console.ReadLine();
     if (searchString == "")
     {
-        Console.WriteLine("Invalid input, try again.");
+        Console.WriteLine("I'm sorry, Dave. I'm afraid I can't do that. Try again.");
     }
     else
     {
